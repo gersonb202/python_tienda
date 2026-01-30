@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Productos - Vinoteca</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vino': '#722F37',
+                        'vino-light': '#8B4049',
+                        'vino-dark': '#5A2329',
+                        'beige': '#F5E6D3',
+                        'beige-dark': '#E8D4BA',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-beige min-h-screen">
+    {% include "menu.html" %}
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold text-vino">Catálogo de Vinos</h1>
+            <a href="registrar-vino"
+                class="bg-vino hover:bg-vino-light text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Añadir Nuevo Vino
+            </a>
+        </div>
+
+        <!-- Grid de Productos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for vino in vinos %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <!-- Imagen del vino -->
+                <div class="relative h-64 bg-beige-dark overflow-hidden">
+                    <img src="../static/imagenes/{{vino.id}}.jpg" alt="{{vino.nombre}}"
+                        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                    <div class="absolute top-2 right-2 bg-vino text-white px-3 py-1 rounded-full text-sm font-bold">
+                        {{vino.precio}} €
+                    </div>
+                </div>
+
+                <!-- Información del vino -->
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-vino mb-2 truncate">{{vino.nombre}}</h3>
+                    <p class="text-gray-600 text-sm mb-4">Precio: <span class="font-bold text-vino">{{vino.precio}}
+                            €</span></p>
+
+                    <!-- Botones de acción -->
+                    <div class="flex gap-2">
+                        <a href="editar-vino/{{vino.id}}"
+                            class="flex-1 bg-beige-dark hover:bg-vino hover:text-white text-vino font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-center text-sm flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                </path>
+                            </svg>
+                            Editar
+                        </a>
+                        <a onclick="return confirm('¿Estás seguro de eliminar este vino?')"
+                            href="borrar-vino/{{vino.id}}"
+                            class="flex-1 bg-red-100 hover:bg-red-600 hover:text-white text-red-600 font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-center text-sm flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                </path>
+                            </svg>
+                            Borrar
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Mensaje si no hay productos -->
+        {% if not vinos %}
+        <div class="bg-white rounded-lg shadow-lg p-12 text-center">
+            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+            <h3 class="text-2xl font-bold text-gray-400 mb-2">No hay productos registrados</h3>
+            <p class="text-gray-500 mb-6">Comienza añadiendo tu primer vino al catálogo</p>
+            <a href="registrar-vino"
+                class="inline-block bg-vino hover:bg-vino-light text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                Añadir Vino
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

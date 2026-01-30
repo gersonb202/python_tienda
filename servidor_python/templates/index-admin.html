@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Vinoteca</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vino': '#722F37',
+                        'vino-light': '#8B4049',
+                        'vino-dark': '#5A2329',
+                        'beige': '#F5E6D3',
+                        'beige-dark': '#E8D4BA',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-beige min-h-screen">
+    {% include "menu.html" %}
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-vino mb-2">Panel de Administración</h1>
+            <p class="text-vino-light text-lg">Bienvenido a la zona de administración de tu vinoteca</p>
+        </div>
+</body>
+
+</html>

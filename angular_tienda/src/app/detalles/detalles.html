@@ -1,0 +1,133 @@
+<!-- Contenedor principal -->
+<div class="min-h-screen bg-gradient-to-b from-[#F5E6D3] to-white">
+    <!-- Botón volver -->
+    <div class="container mx-auto max-w-7xl px-4 pt-8">
+        <a routerLink="/vinos"
+            class="inline-flex items-center gap-2 text-[#722F37] hover:text-[#8B4049] font-semibold transition-colors group">
+            <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                </path>
+            </svg>
+            Volver al catálogo
+        </a>
+    </div>
+
+    <!-- Grid de 2 columnas -->
+    <div class="container mx-auto max-w-7xl px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <!-- Columna izquierda: Imagen -->
+            <div class="sticky top-8">
+                <div class="bg-white rounded-2xl shadow-2xl overflow-hidden p-8">
+                    <div class="relative aspect-[3/4] bg-[#F5E6D3] rounded-xl overflow-hidden">
+                        <img [src]="'http://localhost:5000/static/imagenes/' + vino().id + '.jpg'" [alt]="vino().nombre"
+                            class="w-full h-full object-cover">
+                        <!-- Badge de año -->
+                        <div
+                            class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-full font-semibold">
+                            Añada {{vino().anada}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha: Información -->
+            <div class="space-y-6">
+                <!-- Header del producto -->
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <div class="flex items-start justify-between mb-4">
+                        <h1 class="text-4xl font-bold text-[#722F37] font-['Playfair_Display'] leading-tight">
+                            {{vino().nombre}}
+                        </h1>
+                        <div
+                            class="bg-gradient-to-r from-[#722F37] to-[#8B4049] text-white px-6 py-3 rounded-full ml-4">
+                            <span class="text-3xl font-bold">{{vino().precio}}€</span>
+                        </div>
+                    </div>
+
+                    <!-- Grid de información técnica -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-[#F5E6D3] rounded-xl p-4 hover:bg-[#E8D4BA] transition-colors">
+                            <div class="flex items-center gap-3 mb-2">
+                                <svg class="w-6 h-6 text-[#722F37]" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                                    </path>
+                                </svg>
+                                <span class="text-sm text-gray-600">Tipo</span>
+                            </div>
+                            <p class="text-xl font-bold text-[#722F37]">{{vino().tipo}}</p>
+                        </div>
+
+                        <div class="bg-[#F5E6D3] rounded-xl p-4 hover:bg-[#E8D4BA] transition-colors">
+                            <div class="flex items-center gap-3 mb-2">
+                                <svg class="w-6 h-6 text-[#722F37]" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <span class="text-sm text-gray-600">Año</span>
+                            </div>
+                            <p class="text-xl font-bold text-[#722F37]">{{vino().anada}}</p>
+                        </div>
+
+                        <div class="bg-[#F5E6D3] rounded-xl p-4 hover:bg-[#E8D4BA] transition-colors col-span-2">
+                            <div class="flex items-center gap-3 mb-2">
+                                <svg class="w-6 h-6 text-[#722F37]" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                    </path>
+                                </svg>
+                                <span class="text-sm text-gray-600">Grado de Alcohol</span>
+                            </div>
+                            <p class="text-xl font-bold text-[#722F37]">{{vino().grado_alcohol}}% vol.</p>
+                        </div>
+                    </div>
+
+                    <!-- Botón Añadir al Carrito -->
+                    <button (click)="agregarProductoAlCarrito()"
+                        class="w-full bg-gradient-to-r from-[#722F37] to-[#8B4049] hover:from-[#8B4049] hover:to-[#722F37] text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3 text-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
+                        Añadir al Carrito
+                    </button>
+                </div>
+
+                <!-- Descripción -->
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <h2
+                        class="text-2xl font-bold text-[#722F37] mb-4 font-['Playfair_Display'] flex items-center gap-3">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                        Descripción
+                    </h2>
+                    <p class="text-gray-700 leading-relaxed text-lg">
+                        {{vino().descripcion}}
+                    </p>
+                </div>
+
+                <!-- Información adicional -->
+                <div class="bg-gradient-to-r from-[#722F37] to-[#8B4049] rounded-2xl shadow-xl p-6 text-white">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <p class="font-semibold text-lg">Envío gratuito</p>
+                            <p class="text-[#F5E6D3] text-sm">En pedidos superiores a 50€</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

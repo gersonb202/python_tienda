@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Vino - Vinoteca</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vino': '#722F37',
+                        'vino-light': '#8B4049',
+                        'vino-dark': '#5A2329',
+                        'beige': '#F5E6D3',
+                        'beige-dark': '#E8D4BA',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-beige min-h-screen">
+    {% include "menu.html" %}
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-vino mb-2">Registrar Nuevo Vino</h1>
+                <p class="text-gray-600">Completa los datos del nuevo vino para añadirlo al catálogo</p>
+            </div>
+
+            <!-- Formulario -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <form action="guardar-nuevo-vino" method="post" enctype="multipart/form-data" class="space-y-6">
+
+                    <!-- Nombre -->
+                    <div>
+                        <label for="nombre" class="block text-sm font-semibold text-vino mb-2">Nombre del Vino *</label>
+                        <input type="text" name="nombre" id="nombre" required
+                            class="w-full px-4 py-3 border-2 border-beige-dark rounded-lg focus:border-vino focus:outline-none transition-colors"
+                            placeholder="Ej: Rioja Reserva 2018">
+                    </div>
+
+                    <!-- Precio -->
+                    <div>
+                        <label for="precio" class="block text-sm font-semibold text-vino mb-2">Precio (€) *</label>
+                        <input type="number" name="precio" id="precio" step="0.01" required
+                            class="w-full px-4 py-3 border-2 border-beige-dark rounded-lg focus:border-vino focus:outline-none transition-colors"
+                            placeholder="Ej: 24.99">
+                    </div>
+
+                    <!-- Tipo -->
+                    <div>
+                        <label for="tipo" class="block text-sm font-semibold text-vino mb-2">Tipo *</label>
+                        <input type="text" name="tipo" id="tipo" required
+                            class="w-full px-4 py-3 border-2 border-beige-dark rounded-lg focus:border-vino focus:outline-none transition-colors"
+                            placeholder="Ej: Tinto, Blanco, Rosado">
+                    </div>
+
+                    <!-- Grid para Grado de Alcohol y Añada -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Grado de Alcohol -->
+                        <div>
+                            <label for="grado_alcohol" class="block text-sm font-semibold text-vino mb-2">Grado de
+                                Alcohol (%) *</label>
+                            <input type="number" name="grado_alcohol" id="grado_alcohol" step="0.1" required
+                                class="w-full px-4 py-3 border-2 border-beige-dark rounded-lg focus:border-vino focus:outline-none transition-colors"
+                                placeholder="Ej: 13.5">
+                        </div>
+
+                        <!-- Añada -->
+                        <div>
+                            <label for="anada" class="block text-sm font-semibold text-vino mb-2">Añada (Año) *</label>
+                            <input type="number" name="anada" id="anada" required
+                                class="w-full px-4 py-3 border-2 border-beige-dark rounded-lg focus:border-vino focus:outline-none transition-colors"
+                                placeholder="Ej: 2018">
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div>
+                        <label for="descripcion" class="block text-sm font-semibold text-vino mb-2">Descripción</label>
+                        <textarea name="descripcion" id="descripcion" rows="4"
+                            class="w-full px-4 py-3 border-2 border-beige-dark rounded-lg focus:border-vino focus:outline-none transition-colors resize-none"
+                            placeholder="Describe las características, notas de cata, maridaje..."></textarea>
+                    </div>
+
+                    <!-- Foto -->
+                    <div>
+                        <label for="foto" class="block text-sm font-semibold text-vino mb-2">Imagen del Vino</label>
+                        <div
+                            class="relative border-2 border-dashed border-beige-dark rounded-lg p-6 hover:border-vino transition-colors">
+                            <input type="file" name="foto" id="foto" accept="image/*"
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <div class="text-center">
+                                <svg class="mx-auto h-12 w-12 text-vino-light" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Haz clic o arrastra una imagen aquí
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="flex gap-4 pt-4">
+                        <button type="submit"
+                            class="flex-1 bg-vino hover:bg-vino-light text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
+                            Guardar Vino
+                        </button>
+                        <a href="/admin/gestionar-productos"
+                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg transition-colors text-center">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

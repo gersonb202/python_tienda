@@ -1,0 +1,163 @@
+<!-- Contenedor principal -->
+<div class="min-h-screen bg-gradient-to-b from-[#F5E6D3] to-white py-8">
+    <div class="container mx-auto max-w-7xl px-4">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-[#722F37] to-[#8B4049] text-white rounded-2xl shadow-xl p-8 mb-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                    <div>
+                        <h1 class="text-4xl font-bold font-['Playfair_Display']">Tu Carrito</h1>
+                        <p class="text-[#F5E6D3]">{{vinosCarrito().length}} productos seleccionados</p>
+                    </div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full">
+                    <span class="text-sm">Items: {{vinosCarrito().length}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid: Lista de productos + Resumen -->
+        @if (vinosCarrito().length > 0) {
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Lista de productos (2/3) -->
+            <div class="lg:col-span-2 space-y-4">
+                @for (v of vinosCarrito(); track v.vino.id) {
+                <div
+                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+                    <div class="flex flex-col sm:flex-row gap-4 p-6">
+                        <!-- Imagen -->
+                        <div class="w-full sm:w-32 h-40 bg-[#F5E6D3] rounded-lg overflow-hidden flex-shrink-0">
+                            <img [src]="'http://localhost:5000/static/imagenes/' + v.vino.id + '.jpg'"
+                                [alt]="v.vino.nombre" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Información -->
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-[#722F37] font-['Playfair_Display'] mb-2">
+                                    {{v.vino.nombre}}
+                                </h3>
+                                <div class="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
+                                    <span class="flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                                            </path>
+                                        </svg>
+                                        {{v.vino.tipo}}
+                                    </span>
+                                    <span class="text-gray-400">•</span>
+                                    <span>{{v.vino.grado_alcohol}}% vol.</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-end justify-between mt-4">
+                                <!-- Precio y cantidad -->
+                                <div>
+                                    <p class="text-2xl font-bold text-[#722F37]">{{v.vino.precio}}€</p>
+                                    <p class="text-sm text-gray-600">Cantidad: <span
+                                            class="font-semibold">{{v.cantidad}}</span></p>
+                                </div>
+                                <!-- Subtotal -->
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-500">Subtotal</p>
+                                    <p class="text-2xl font-bold text-[#8B4049]">{{(v.vino.precio || 0) * v.cantidad |
+                                        number:'1.2-2'}}€</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+
+            <!-- Resumen del pedido (1/3 - sticky) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-2xl p-6 sticky top-8">
+                    <h2 class="text-2xl font-bold text-[#722F37] mb-6 font-['Playfair_Display']">Resumen del Pedido</h2>
+
+                    <!-- Desglose -->
+                    <div class="space-y-3 mb-6">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span class="font-semibold">{{calcularSubtotal() | number:'1.2-2'}}€</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Envío</span>
+                            <span class="font-semibold text-green-600">Gratis</span>
+                        </div>
+                        <div class="border-t-2 border-[#F5E6D3] pt-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-gray-800">Total</span>
+                                <span class="text-3xl font-bold text-[#722F37]">{{calcularSubtotal() |
+                                    number:'1.2-2'}}€</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="space-y-3">
+                        <button (click)="realizarPedido()"
+                            class="w-full bg-gradient-to-r from-[#722F37] to-[#8B4049] hover:from-[#8B4049] hover:to-[#722F37] text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Realizar Pedido
+                        </button>
+
+                        <button (click)="vaciarCarrito()"
+                            class="w-full bg-gray-200 hover:bg-red-100 text-gray-700 hover:text-red-600 font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                </path>
+                            </svg>
+                            Vaciar Carrito
+                        </button>
+                    </div>
+
+                    <!-- Info adicional -->
+                    <div class="mt-6 p-4 bg-[#F5E6D3] rounded-lg">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-[#722F37] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-sm text-gray-700">Envío gratuito en todos los pedidos. Entrega en 24-48
+                                horas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        <!-- Estado vacío -->
+        @if (vinosCarrito().length === 0) {
+        <div class="bg-white rounded-2xl shadow-xl p-16 text-center">
+            <svg class="w-32 h-32 mx-auto text-gray-300 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                </path>
+            </svg>
+            <h3 class="text-3xl font-bold text-gray-400 mb-3 font-['Playfair_Display']">Tu carrito está vacío</h3>
+            <p class="text-gray-500 mb-8">Descubre nuestra selección de vinos y añade tus favoritos</p>
+            <a routerLink="/vinos"
+                class="inline-flex items-center gap-2 bg-gradient-to-r from-[#722F37] to-[#8B4049] text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Ver Catálogo de Vinos
+            </a>
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,11 @@
+{
+    "/server": {
+        "target": "http://localhost:5000",
+        "secure": false,
+        "pathRewrite": {
+            "^/server": "/rest"
+        },
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}
